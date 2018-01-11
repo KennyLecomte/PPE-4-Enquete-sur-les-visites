@@ -1,0 +1,26 @@
+{# src/Sio/BlogBundle/Resources/views/Blog/test.html.twig #}
+
+{% extends "SIOBlogBundle::layout.html.twig" %}
+
+{% block Sioblog_body %}
+	<h1>{{article.titre}}</h1>
+	<i>Par {{article.auteur}}, le {{article.date|date('d/m/Y')}} </i>
+	</br>
+	<div class="panel-default">
+		<div class="panel-heading">
+			{{article.contenu}}
+		</div>
+	</div>
+
+</br>
+
+	<div class="row">
+		<div class="btn-group">
+			<a href = "{{ path('sio_blog_accueil') }}" class="btn btn-default">Retour à la liste</a>
+			<a href = "{{ path('sio_blog_accueil') }}" class="btn btn-default">Modifier l'article</a>
+			<a href = "{{ path('sio_blog_accueil') }}" class="btn btn-default">Supprimer l'article</a>
+		</div>
+	</div>
+
+{% endblock %}
+     

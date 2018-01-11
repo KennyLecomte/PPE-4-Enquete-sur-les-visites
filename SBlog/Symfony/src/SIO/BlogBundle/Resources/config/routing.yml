@@ -1,0 +1,38 @@
+sio_blog_supprimer:
+    path:   /supprimer/{id}
+    defaults:  { _controller: SIOBlogBundle:Blog:supprimer }
+    requirements:
+        id:   \d+
+
+sio_blog_test:
+    path:   /test
+    defaults:  { _controller: SIOBlogBundle:Blog:test }
+
+sio_blog_ajouter:
+    path:   /ajouter
+    defaults:  { _controller: SIOBlogBundle:Blog:ajouter }
+
+sio_blog_accueil:
+    path:   /{page} 
+    defaults:  { _controller: SIOBlogBundle:Blog:index, page: 1}
+    requirements:
+        id:   \d*
+
+sio_blog_voir:
+    path:   /article/{id}
+    defaults:  { _controller: SIOBlogBundle:Blog:voir }
+    requirements:
+        id:   \d+
+
+sio_blog_ajouter:
+    path:   /ajouter
+    defaults:  { _controller: SIOBlogBundle:Blog:ajouter }
+
+sio_blog_modifier:
+    path:   /modifier/{id}
+    defaults:  { _controller: SIOBlogBundle:Blog:modifier }
+    requirements:
+        id:   \d+
+
+
+
