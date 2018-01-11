@@ -1,4 +1,0 @@
-services:
-#    sio_blog.example:
-#        class: SIO\BlogBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
