@@ -1,0 +1,18 @@
+TobatBundle\Entity\Bateau:
+    type: entity
+    table: null
+    repositoryClass: TobatBundle\Repository\BateauRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        modele:
+            type: string
+            length: 255
+        categorie:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

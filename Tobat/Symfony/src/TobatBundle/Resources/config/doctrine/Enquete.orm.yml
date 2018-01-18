@@ -1,0 +1,27 @@
+TobatBundle\Entity\Enquete:
+    type: entity
+    table: null
+    repositoryClass: TobatBundle\Repository\EnqueteRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        trancheAge:
+            type: string
+            length: 255
+        motivation:
+            type: string
+            length: 255
+        ville:
+            type: string
+            length: 255
+        codePostal:
+            type: integer
+        vip:
+            type: boolean
+        dateEnquete:
+            type: date
+    lifecycleCallbacks: {  }

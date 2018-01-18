@@ -1,0 +1,15 @@
+TobatBundle\Entity\CategorieSociale:
+    type: entity
+    table: null
+    repositoryClass: TobatBundle\Repository\CategorieSocialeRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nomCate:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

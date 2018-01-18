@@ -3,10 +3,11 @@
 namespace TobatBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use TobatBundle\Entity\Connexion;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         return $this->render('TobatBundle:Default:index.html.twig');
     }
