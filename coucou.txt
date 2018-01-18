@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="slam5.applicationtest.MainActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingTop="50dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="left">
+
+        <EditText
+            android:id="@+id/ville"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:hint="Ville"
+            android:inputType="numberDecimal" />
+        <EditText
+            android:id="@+id/cp"
+            android:paddingTop="25dp"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Code Postal"
+            />
+        <Spinner
+            android:id="@+id/categorie"
+            android:paddingTop="25dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            />
+        <Spinner
+            android:id="@+id/age"
+            android:paddingTop="25dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            />
+        <EditText
+            android:id="@+id/raison"
+            android:paddingTop="25dp"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Raison"
+            />
+        <EditText
+            android:id="@+id/budget"
+            android:paddingTop="25dp"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Budget"
+            />
+        <Spinner
+            android:id="@+id/bateau"
+            android:paddingTop="25dp"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            />
+        <CheckBox
+            android:id="@+id/vip"
+
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:text="VIP"
+            />
+        <Button
+
+            android:id="@+id/valider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Envoyer"
+            />
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
