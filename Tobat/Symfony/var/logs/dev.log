@@ -1,0 +1,2 @@
+[2018-01-18 09:24:48] request.INFO: Matched route "tobat_homepage". {"route":"tobat_homepage","route_parameters":{"_controller":"TobatBundle\\Controller\\DefaultController::indexAction","_route":"tobat_homepage"},"request_uri":"http://localhost/PPE4/Tobat/Symfony/web/app_dev.php/","method":"GET"} []
+[2018-01-18 09:24:48] security.INFO: Populated the TokenStorage with an anonymous Token. [] []
