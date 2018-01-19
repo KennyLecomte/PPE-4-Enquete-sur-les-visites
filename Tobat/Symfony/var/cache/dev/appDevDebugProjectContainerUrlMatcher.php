@@ -112,6 +112,31 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::indexAction',  '_route' => 'tobat_homepage',);
         }
 
+        // tobat_enquete
+        if ('/enquete' === $pathinfo) {
+            return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::enqueteAction',  '_route' => 'tobat_enquete',);
+        }
+
+        // tobat_repartitionVisiteur
+        if ('/repartition' === $pathinfo) {
+            return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::repartitionVisiteurAction',  '_route' => 'tobat_repartitionVisiteur',);
+        }
+
+        // tobat_visiteurs
+        if ('/visiteurs' === $pathinfo) {
+            return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::visiteursAction',  '_route' => 'tobat_visiteurs',);
+        }
+
+        // tobat_budget
+        if ('/budget' === $pathinfo) {
+            return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::budgetAction',  '_route' => 'tobat_budget',);
+        }
+
+        // tobat_classement
+        if ('/classement' === $pathinfo) {
+            return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::classementAction',  '_route' => 'tobat_classement',);
+        }
+
         // homepage
         if ('' === $trimmedPathinfo) {
             if (substr($pathinfo, -1) !== '/') {
