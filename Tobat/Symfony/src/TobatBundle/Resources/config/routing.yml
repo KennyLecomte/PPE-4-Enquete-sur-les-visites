@@ -1,0 +1,3 @@
+tobat_homepage:
+    path:     /
+    defaults: { _controller: TobatBundle:Default:index }
