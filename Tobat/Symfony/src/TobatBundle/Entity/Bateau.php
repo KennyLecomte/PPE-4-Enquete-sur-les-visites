@@ -35,11 +35,7 @@ class Bateau
      */
     private $categorie;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="TobatBundle\Entity\Enquete", cascade={"persist"})
-     */
     private $enquetes;
-
 
     /**
      * Get id
