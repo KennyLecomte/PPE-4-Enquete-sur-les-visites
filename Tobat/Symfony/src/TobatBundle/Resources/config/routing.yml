@@ -2,6 +2,10 @@ tobat_homepage:
     path:     /
     defaults: { _controller: TobatBundle:Default:index }
 
+tobat_test:
+    path:     /test
+    defaults: { _controller: TobatBundle:Default:test }
+
 tobat_enquete:
     path:    /enquete
     defaults: { _controller: TobatBundle:Default:enquete}
