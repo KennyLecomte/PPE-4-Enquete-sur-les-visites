@@ -1,0 +1,23 @@
+Catégories sociales : <br><br>
+
+{% for nbVisiteursCategorie in nbVisiteursCategories %}
+	{{ nbVisiteursCategorie['nomCategorie'] }} : {{ nbVisiteursCategorie['nbVisiteurs'] }} <br>
+{% endfor %}
+
+<br><br>
+
+Tranches d'âge : <br><br>
+
+{% for nbVisiteursTrancheAge in nbVisiteursTranchesAge %}
+	{{ nbVisiteursTrancheAge['trancheAge'][1] }} : {{ nbVisiteursTrancheAge['nbVisiteurs'] }} <br>
+{% endfor %}
+
+<br><br>
+
+Motivations : <br><br>
+
+{% for nbVisiteursMotivation in nbVisiteursMotivations %}
+	{{ nbVisiteursMotivation['motivation'][1] }} : {{ nbVisiteursMotivation['nbVisiteurs'] }} <br>
+{% endfor %}
+
+
