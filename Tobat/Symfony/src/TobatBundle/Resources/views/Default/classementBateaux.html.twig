@@ -1,0 +1,5 @@
+Catégories de bateaux : <br><br>
+
+{% for classementCategorie in classementCategories %}
+	{{ classementCategorie['nomCategorie'] }} : {{ classementCategorie['nbEnquetes'] }} <br>
+{% endfor %}

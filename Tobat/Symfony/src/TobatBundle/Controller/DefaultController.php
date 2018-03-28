@@ -44,21 +44,40 @@ class DefaultController extends Controller
         return $categoriesBateaux;
     }
 
-    public function getClassementBateauxAction()
+    public function getClassementCategoriesBateaux()
     {
+        $nbEnquetesCategories = array();
+
         $entityManager = $this->getDoctrine()->getManager();
 
         $categoriesBateaux = $this->getCategoriesBateaux();
 
         foreach ($categoriesBateaux as $categorieBateau) 
         {
+            var_dump($categorieBateau);
+
             $query = $entityManager->createQuery(
             'SELECT count(e)
             FROM TobatBundle:Enquete e, TobatBundle:Bateau b
-            WHERE e.budget=c.id AND c.nomCategorie=:categorie'
+            WHERE b.enquetes=e.bateaux b.categorie=:categorie'
             
-            )->setParameter('categorie', $categorieSociale->getNomCategorie());
+            )->setParameter('categorie', $categorieBateau);
+
+            $resultat = $query->getResult();
+
+            $nbEnquetesCategorie = array('nomCategorie'=>$categorieBateau, 'nbEnquetes' =>$resultat[0][1]);
+
+            array_push($nbEnquetesCategories, $nbEnquetesCategorie);
         }
+
+        return $nbEnquetesCategories;
+    }
+
+    public function getClassementBateauxAction()
+    {
+        $classementCategoriesBateaux = $this->getClassementCategoriesBateaux();
+
+        return $this->render('TobatBundle:Default:classementBateaux.html.twig', array('classementCategories' => $classementCategoriesBateaux));
     }
 
     public function getNbVisiteursCategoriesSociales()
