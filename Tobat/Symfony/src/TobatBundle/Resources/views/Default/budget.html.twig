@@ -1,1 +1,14 @@
-Hello World!
+<table>
+	<tr>
+		<th>Budget</th>
+		<th>Nombre de personnes</th>
+	</tr>
+		{% for budget in budgets %}
+			<tr><td>{{ budget.min }} - {{ budget.max }}</td></tr>
+		{% endfor %}
+		
+	
+		{% for nbVisiteursBudget in nbVisiteursBudgets %}
+			<tr><td>{{ nbVisiteursBudget['nbVisiteursBudget'] }}</td></tr>
+		{% endfor %}
+</table>
