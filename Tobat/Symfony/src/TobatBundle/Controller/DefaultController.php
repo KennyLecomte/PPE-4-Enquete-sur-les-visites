@@ -33,6 +33,34 @@ class DefaultController extends Controller
         return new Response($serializer->serialize($client, 'json'));
     }
 
+    public function getCategoriesBateaux()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $query = $entityManager->createQuery('SELECT DISTINCT b.categorie FROM TobatBundle:Bateau b');
+
+        $categoriesBateaux = $query->getResult();
+
+        return $categoriesBateaux;
+    }
+
+    public function getClassementBateauxAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $categoriesBateaux = $this->getCategoriesBateaux();
+
+        foreach ($categoriesBateaux as $categorieBateau) 
+        {
+            $query = $entityManager->createQuery(
+            'SELECT count(e)
+            FROM TobatBundle:Enquete e, TobatBundle:Bateau b
+            WHERE e.budget=c.id AND c.nomCategorie=:categorie'
+            
+            )->setParameter('categorie', $categorieSociale->getNomCategorie());
+        }
+    }
+
     public function getNbVisiteursCategoriesSociales()
     {
         $nbVisiteursCategories = array();

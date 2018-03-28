@@ -112,6 +112,29 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::indexAction',  '_route' => 'tobat_homepage',);
         }
 
+        // tobat_test
+        if ('/test' === $pathinfo) {
+            return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::testAction',  '_route' => 'tobat_test',);
+        }
+
+        // tobat_nbVisiteursCritere
+        if ('/nbVisiteursCritere' === $pathinfo) {
+            return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::nbVisiteursCritereAction',  '_route' => 'tobat_nbVisiteursCritere',);
+        }
+
+        if (0 === strpos($pathinfo, '/classement')) {
+            // tobat_classementBateaux
+            if ('/classementBateaux' === $pathinfo) {
+                return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::getClassementBateauxAction',  '_route' => 'tobat_classementBateaux',);
+            }
+
+            // tobat_classement
+            if ('/classement' === $pathinfo) {
+                return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::classementAction',  '_route' => 'tobat_classement',);
+            }
+
+        }
+
         // tobat_enquete
         if ('/enquete' === $pathinfo) {
             return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::enqueteAction',  '_route' => 'tobat_enquete',);
@@ -130,11 +153,6 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         // tobat_budget
         if ('/budget' === $pathinfo) {
             return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::budgetAction',  '_route' => 'tobat_budget',);
-        }
-
-        // tobat_classement
-        if ('/classement' === $pathinfo) {
-            return array (  '_controller' => 'TobatBundle\\Controller\\DefaultController::classementAction',  '_route' => 'tobat_classement',);
         }
 
         // homepage

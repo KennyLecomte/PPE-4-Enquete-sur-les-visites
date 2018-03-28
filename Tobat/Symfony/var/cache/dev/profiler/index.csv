@@ -5,3 +5,9 @@ a59f0b,::1,GET,http://localhost/PPE4/Tobat/Symfony/web/app_dev.php/,1516355772,,
 81cf8b,::1,GET,http://localhost/PPE4/Tobat/Symfony/web/app_dev.php/visiteurs,1516355797,,200
 c4f468,::1,GET,http://localhost/PPE4/Tobat/Symfony/web/app_dev.php/budget,1516355801,,200
 0e2a78,::1,GET,http://localhost/PPE4/Tobat/Symfony/web/app_dev.php/classement,1516355805,,200
+3820d4,::1,GET,http://localhost/PPE-4-Symfony/Tobat/Symfony/web/app_dev.php/classementBateaux,1522245255,e3ff2b,200
+e3ff2b,::1,GET,http://localhost/PPE-4-Symfony/Tobat/Symfony/web/app_dev.php/classementBateaux,1522245255,,500
+1fd6d6,::1,GET,http://localhost/PPE-4-Symfony/Tobat/Symfony/web/app_dev.php/classementBateaux,1522245266,7e419f,200
+7e419f,::1,GET,http://localhost/PPE-4-Symfony/Tobat/Symfony/web/app_dev.php/classementBateaux,1522245266,,500
+6fd7d2,::1,GET,http://localhost/PPE-4-Symfony/Tobat/Symfony/web/app_dev.php/classementBateaux,1522245380,5f78ef,200
+5f78ef,::1,GET,http://localhost/PPE-4-Symfony/Tobat/Symfony/web/app_dev.php/classementBateaux,1522245380,,500

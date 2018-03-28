@@ -10,6 +10,10 @@ tobat_nbVisiteursCritere:
     path:     /nbVisiteursCritere
     defaults: { _controller: TobatBundle:Default:nbVisiteursCritere }
 
+tobat_classementBateaux:
+    path:     /classementBateaux
+    defaults: { _controller: TobatBundle:Default:getClassementBateaux }
+
 tobat_enquete:
     path:    /enquete
     defaults: { _controller: TobatBundle:Default:enquete}
