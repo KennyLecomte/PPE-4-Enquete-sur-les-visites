@@ -24,13 +24,32 @@ class DefaultController extends Controller
     public function testAction()
     {
         // Instance de Serializer
-        $serializer = new Serializer(array(new getSetMethodNormalizer()),array(new XMLEncoder(),new JsonEncoder()));
+        //$serializer = new Serializer(array(new getSetMethodNormalizer()),array(new XMLEncoder(),new JsonEncoder()));
         // Instance du manager de Doctrine
-        $manager = $this->getDoctrine()->getManager();
+        //$manager = $this->getDoctrine()->getManager();
         // Récupération du client
-        $client = $manager->getRepository(Bateau::class)->findAll();
+        //$client = $manager->getRepository(Bateau::class)->findAll();
 
-        return new Response($serializer->serialize($client, 'json'));
+        //return new Response($serializer->serialize($client, 'json'));
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        /*$enquete = $entityManager->getRepository('TobatBundle:Enquete')->find(1);
+
+        $bateauEnquete=$enquete->getBateaux();
+        foreach ($bateauEnquete as $bateau) 
+        {
+            var_dump($bateau);
+        }*/
+
+        $bateau = $entityManager->getRepository('TobatBundle:Bateau')->find(1);
+        $enqueteBateau = $bateau->getEnquetes();
+        foreach ($enqueteBateau as $enquete) 
+        {
+            var_dump($enquete);
+        }
+        
+
     }
 
     public function getCategoriesBateaux()
@@ -59,7 +78,7 @@ class DefaultController extends Controller
             $query = $entityManager->createQuery(
             'SELECT count(e)
             FROM TobatBundle:Enquete e, TobatBundle:Bateau b
-            WHERE b.enquetes=e.bateaux b.categorie=:categorie'
+            WHERE b.enquetes=e.bateaux AND b.categorie=:categorie'
             
             )->setParameter('categorie', $categorieBateau);
 
