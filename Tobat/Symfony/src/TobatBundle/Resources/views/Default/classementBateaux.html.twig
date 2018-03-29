@@ -1,5 +1,9 @@
 Catégories de bateaux : <br><br>
 
-{% for classementCategorie in classementCategories %}
-	{{ classementCategorie['nomCategorie'] }} : {{ classementCategorie['nbEnquetes'] }} <br>
+{% for categorieBateau in categoriesBateaux %}
+	Catégorie : {{ categorieBateau }} : {{ classementCategories[categorieBateau] }} <br>
+	Bateaux : <br>
+	{% for modeleBateau in classementsBateauxCategories[categorieBateau]['keys'] %}
+		Bateau : {{ modeleBateau }} : {{ classementsBateauxCategories[categorieBateau][modeleBateau] }} <br><br>
+	{% endfor %}
 {% endfor %}

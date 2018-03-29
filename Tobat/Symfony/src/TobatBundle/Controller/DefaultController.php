@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -87,40 +86,91 @@ class DefaultController extends Controller
         return $categoriesBateaux;
     }
 
+    public function getEnquetes()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $enquetes = $entityManager->getRepository('TobatBundle:Enquete')->findAll();
+
+        return $enquetes;
+    }
+
     public function getClassementCategoriesBateaux()
     {
-        $nbEnquetesCategories = array();
-
         $entityManager = $this->getDoctrine()->getManager();
+
+        $classementCategories = [];
+
+        $categoriesBateaux = $this->getCategoriesBateaux();
+        foreach ($categoriesBateaux as $categorieBateaux) 
+        {
+            $classementCategories += [$categorieBateaux['categorie'] => 0];
+        }
 
         $categoriesBateaux = $this->getCategoriesBateaux();
 
-        foreach ($categoriesBateaux as $categorieBateau) 
+        $enquetes = $this->getEnquetes();
+
+        foreach ($enquetes as $enquete) 
         {
-            var_dump($categorieBateau);
-
-            $query = $entityManager->createQuery(
-            'SELECT count(e)
-            FROM TobatBundle:Enquete e, TobatBundle:Bateau b
-            WHERE b.enquetes=e.bateaux AND b.categorie=:categorie'
-            
-            )->setParameter('categorie', $categorieBateau);
-
-            $resultat = $query->getResult();
-
-            $nbEnquetesCategorie = array('nomCategorie'=>$categorieBateau, 'nbEnquetes' =>$resultat[0][1]);
-
-            array_push($nbEnquetesCategories, $nbEnquetesCategorie);
+            $bateauxEnquete = $enquete->getBateaux();
+            foreach ($bateauxEnquete as $bateauEnquete ) 
+            {
+                $classementCategories[$bateauEnquete->getCategorie()] +=1;
+            }
         }
 
-        return $nbEnquetesCategories;
+        arsort($classementCategories);
+
+        return $classementCategories;
+    }
+
+    public function getClassementBateauxCategorie($categorie)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $classementBateaux = [];
+
+        $bateauxCategorie = $entityManager->getRepository('TobatBundle:Bateau')->findByCategorie($categorie);
+
+        foreach ($bateauxCategorie as $bateauCategorie) 
+        {
+            $classementBateaux+=[$bateauCategorie->getModele() => $bateauCategorie->getEnquetes()->count()];
+        }
+
+        arsort($classementBateaux);
+
+        $keys = array_keys($classementBateaux);
+
+        $classementBateaux+=['keys' => $keys];
+
+        return $classementBateaux;
+    }
+
+    public function getClassementsBateauxCategories()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $classementsBateauxCategories = [];
+
+        $categories = $this->getCategoriesBateaux();
+        foreach ($categories as $categorie) 
+        {
+            $classementBateauxCategorie = $this->getClassementBateauxCategorie($categorie);
+            $classementsBateauxCategories += [$categorie['categorie'] => $classementBateauxCategorie];
+        }
+
+        return $classementsBateauxCategories;
     }
 
     public function getClassementBateauxAction()
     {
         $classementCategoriesBateaux = $this->getClassementCategoriesBateaux();
+        $classementsBateauxCategories = $this->getClassementsBateauxCategories();
 
-        return $this->render('TobatBundle:Default:classementBateaux.html.twig', array('classementCategories' => $classementCategoriesBateaux));
+        $categoriesBateaux = array_keys($classementCategoriesBateaux);
+
+        return $this->render('TobatBundle:Default:classementBateaux.html.twig', array('classementCategories' => $classementCategoriesBateaux, 'categoriesBateaux' => $categoriesBateaux, 'classementsBateauxCategories' => $classementsBateauxCategories));
     }
 
     public function getNbVisiteursCategoriesSociales()
