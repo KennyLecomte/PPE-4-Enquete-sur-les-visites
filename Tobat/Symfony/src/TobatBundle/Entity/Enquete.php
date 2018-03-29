@@ -82,7 +82,8 @@ class Enquete
     private $categorieSociale;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TobatBundle\Entity\Bateau", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="TobatBundle\Entity\Bateau", cascade={"persist"}, inversedBy="enquetes")
+     * @ORM\JoinTable(name="enquete_bateau")
      */
     private $bateaux;
 

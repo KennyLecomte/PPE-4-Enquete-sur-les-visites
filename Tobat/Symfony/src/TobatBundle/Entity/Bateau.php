@@ -35,6 +35,10 @@ class Bateau
      */
     private $categorie;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="TobatBundle\Entity\Enquete", mappedBy="bateaux")
+     *
+     */
     private $enquetes;
 
     /**
