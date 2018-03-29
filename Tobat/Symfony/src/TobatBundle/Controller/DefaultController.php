@@ -8,6 +8,7 @@ use TobatBundle\Entity\Connexion;
 use TobatBundle\Entity\CategorieSociale;
 use TobatBundle\Entity\Departement;
 use TobatBundle\Entity\Enquete;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
@@ -205,7 +206,6 @@ class DefaultController extends Controller
     {
         return $this->render('TobatBundle:Default:enquete.html.twig');
     }
-
     public function repartitionVisiteurAction()
     {
         return $this->render('TobatBundle:Default:repartition.html.twig');
@@ -248,6 +248,21 @@ class DefaultController extends Controller
     public function classementAction()
     {
         return $this->render('TobatBundle:Default:classement.html.twig');
+    }
+    public function getNbEnqueteAction(Request $request){
+
+
+        $date = $request->get('date');
+
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+        $queryNb = $connection->prepare("SELECT count(*) FROM enquete WHERE dateEnquete = :date");
+        $queryNb->bindValue('date', $date);
+        $queryNb->execute();
+        $nbEnquetes = $queryNb->fetchAll();
+
+        return $this->render('TobatBundle:Default:nbEnquetes.html.twig',array('nbEnquetes' => $nbEnquetes));
+
     }
 }
 
