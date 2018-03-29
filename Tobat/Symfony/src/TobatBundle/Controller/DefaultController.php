@@ -8,18 +8,41 @@ use TobatBundle\Entity\Connexion;
 use TobatBundle\Entity\CategorieSociale;
 use TobatBundle\Entity\Departement;
 use TobatBundle\Entity\Enquete;
+use TobatBundle\Form\ConnexionType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->render('TobatBundle:Default:index.html.twig');
+        $connexion2 = new Connexion();
+        $managerConnexion = $this->getDoctrine()->getManager();
+        $connexion = $managerConnexion->getRepository('TobatBundle:Connexion')->find(1);
+        $login = $connexion->getLogin();
+        $mdp = $connexion->getMotDePasse();
+
+        $form = $this->get('form.factory')->create(ConnexionType::class, $connexion2);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            if ($connexion2->getLogin() == $connexion->getLogin() && $connexion2->getMotDePasse() == $connexion->getMotDePasse()) {
+                $em = $this->getDoctrine()->getManager();
+                echo('Vous êtes bien connectés'); 
+
+                return $this->redirectToRoute('tobat_budget');
+            }
+            else {
+                echo('Mauvais login ou mot de passe');
+                return $this->render('TobatBundle:Default:index.html.twig', array('form' => $form->createView()));
+            }
+        }
+
+        return $this->render('TobatBundle:Default:index.html.twig', array('form' => $form->createView()));
     }
 
     public function testAction()
