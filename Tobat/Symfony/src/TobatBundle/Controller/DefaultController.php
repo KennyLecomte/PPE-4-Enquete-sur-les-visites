@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class DefaultController extends Controller
 {
@@ -71,8 +72,75 @@ class DefaultController extends Controller
         {
             var_dump($enquete);
         }
-        
+    }
 
+    public function getBudgetsJSONAction()
+    {
+        $budgets = array();
+
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $budgetsObjets = $entityManager->getRepository('TobatBundle:Budget')->findAll();
+
+        foreach ($budgetsObjets as $budget) 
+        {            
+            $temp=['id'=>$budget->getId(), 'min'=>$budget->getMin(), 'max'=>$budget->getMax()];
+
+            array_push($budgets, $temp);
+        }
+
+        return new Response($serializer->serialize($budgets, 'json'));
+    }
+
+    public function getCategoriesSocialesJSONAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $categoriesSociales = array();
+
+        $categoriesSocialesObjets = $entityManager->getRepository('TobatBundle:CategorieSociale')->findAll();
+
+        foreach ($categoriesSocialesObjets as $categorieSociale) 
+        {
+            $temp=['id'=>$categorieSociale->getId(), 'nomCategorie'=>$categorieSociale->getNomCategorie()];
+
+            array_push($categoriesSociales, $temp);
+        }
+
+        return new Response($serializer->serialize($categoriesSociales, 'json'));
+    }
+
+    public function getBateauxJSONAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $bateaux = array();
+
+        $bateauxObjets = $entityManager->getRepository('TobatBundle:Bateau')->findAll();
+
+        foreach ($bateauxObjets as $bateau) 
+        {
+            $temp=['id'=>$bateau->getId(), 'modele'=>$bateau->getModele()];
+
+            array_push($bateaux, $temp);
+        }
+
+        return new Response($serializer->serialize($bateaux, 'json'));
     }
 
     public function getCategoriesBateaux()

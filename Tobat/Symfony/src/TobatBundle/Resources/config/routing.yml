@@ -6,6 +6,18 @@ tobat_test:
     path:     /test
     defaults: { _controller: TobatBundle:Default:test }
 
+tobat_getBudgetsJSON:
+    path:     /getBudgetsJSON
+    defaults: { _controller: TobatBundle:Default:getBudgetsJSON }
+
+tobat_getCategoriesSocialesJSON:
+    path:     /getCategoriesSocialesJSON
+    defaults: { _controller: TobatBundle:Default:getCategoriesSocialesJSON }
+
+tobat_getBateauxJSON:
+    path:     /getBateauxJSON
+    defaults: { _controller: TobatBundle:Default:getBateauxJSON }
+
 tobat_nbVisiteursCritere:
     path:     /nbVisiteursCritere
     defaults: { _controller: TobatBundle:Default:nbVisiteursCritere }
