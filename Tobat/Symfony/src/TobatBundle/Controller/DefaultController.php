@@ -16,33 +16,64 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $connexion2 = new Connexion();
-        $managerConnexion = $this->getDoctrine()->getManager();
-        $connexion = $managerConnexion->getRepository('TobatBundle:Connexion')->find(1);
-        $login = $connexion->getLogin();
-        $mdp = $connexion->getMotDePasse();
-
-        $form = $this->get('form.factory')->create(ConnexionType::class, $connexion2);
-
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            if ($connexion2->getLogin() == $connexion->getLogin() && $connexion2->getMotDePasse() == $connexion->getMotDePasse()) {
-                $em = $this->getDoctrine()->getManager();
-                echo('Vous êtes bien connectés'); 
-
-                return $this->redirectToRoute('tobat_budget');
-            }
-            else {
-                echo('Mauvais login ou mot de passe');
-                return $this->render('TobatBundle:Default:index.html.twig', array('form' => $form->createView()));
-            }
+        if(!$this->get('session')->isStarted())
+        {
+            $this->creationSession();
         }
 
-        return $this->render('TobatBundle:Default:index.html.twig', array('form' => $form->createView()));
+        if(!$this->verificationConnexion())
+        {
+            $connexion2 = new Connexion();
+            $managerConnexion = $this->getDoctrine()->getManager();
+            $connexion = $managerConnexion->getRepository('TobatBundle:Connexion')->find(1);
+            $login = $connexion->getLogin();
+            $mdp = $connexion->getMotDePasse();
+
+            $form = $this->get('form.factory')->create(ConnexionType::class, $connexion2);
+
+            if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+                if ($connexion2->getLogin() == $connexion->getLogin() && $connexion2->getMotDePasse() == $connexion->getMotDePasse()) {
+                    $em = $this->getDoctrine()->getManager();
+                    echo('Vous êtes bien connectés');
+
+                     $this->get('session')->set('status', 'connecte');
+
+                    return $this->redirectToRoute('tobat_budget');
+                }
+                else {
+                    echo('Mauvais login ou mot de passe');
+                    return $this->render('TobatBundle:Default:index.html.twig', array('form' => $form->createView()));
+                }
+            }
+
+            return $this->render('TobatBundle:Default:index.html.twig', array('form' => $form->createView()));
+        }
+
+        return new Response('Vous ètes déja connecté');
+    }
+
+    public function creationSession()
+    {
+        $session = new Session();
+        $session->start();
+    }
+
+    public function verificationConnexion()
+    {
+        $connecte = false;
+
+        if($this->get('session')->get('status')=='connecte')
+        {
+            $connecte = true;
+        }
+
+        return $connecte;
     }
 
     public function testAction()
@@ -115,7 +146,7 @@ class DefaultController extends Controller
         $idDepartement=intval($idDepartement);
         $idCategorieSociale = intval($idCategorieSociale);
 
-        $enquete = new Enquete()
+        $enquete = new Enquete();
 
         $enquete->setTrancheAge($trancheAge);
         $enquete->setMotivation($raison);
@@ -145,7 +176,7 @@ class DefaultController extends Controller
             echo 'Veuillez remplir tous les champs';
         }
 
-        $bateau = new Bateau()
+        $bateau = new Bateau();
 
         $bateau->setModele($modele);
         $bateau->setCategorie($categorie);
