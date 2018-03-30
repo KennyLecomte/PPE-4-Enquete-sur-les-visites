@@ -74,6 +74,88 @@ class DefaultController extends Controller
         }
     }
 
+    public function insertEnqueteAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $ville = json_decode($request->getContent(), true)['ville'];
+        $codePostal = json_decode($request->getContent(), true)['codePostal'];
+        $raison = json_decode($request->getContent(), true)['raison'];
+        $budget = json_decode($request->getContent(), true)['budget'];
+        $trancheAge = json_decode($request->getContent(), true)['trancheAge'];
+        $vip = json_decode($request->getContent(), true)['vip'];
+        $categorieSociale = json_decode($request->getContent(), true)['categorieSociale'];
+
+        if(empty($ville) || empty($codePostal) || empty($raison) || empty($budget) || empty($trancheAge) || empty($vip) || empty($categorieSociale))
+        {
+            echo 'Veuillez remplir tous les champs';
+        }
+
+        $idDepartement = substr($codePostal, 0, 2);
+
+        $minMax = explode("-", $budget);
+
+        $min = $minMax[0];
+        $max = $minMax[1];
+
+        $budget = $entityManager->getRepository('TobatBundle:Budget')->findBy(
+          array('min' => $min), 
+          array('max' => $max)
+        );
+
+        $categorieSociale = $entityManager->getRepository('TobatBundle:CategorieSociale')->findByNomCategorie($categorieSociale);
+
+        $departement = $entityManager->getRepository('TobatBundle:Departement')->findById($idDepartement);
+
+        $dateEnquete = $date = date('Y-m-d');
+
+        $codePostal=intval($codePostal);
+        $vip=intval($vip);
+        $idBudget=intval($idBudget);
+        $idDepartement=intval($idDepartement);
+        $idCategorieSociale = intval($idCategorieSociale);
+
+        $enquete = new Enquete()
+
+        $enquete->setTrancheAge($trancheAge);
+        $enquete->setMotivation($raison);
+        $enquete->setVille($ville);
+        $enquete->setCodePostal($codePostal);
+        $enquete->setVip($vip);
+        $enquete->setDateEnquete($dateEnquete);
+        $enquete->setBudget($budget);
+        $enquete->setDepartement($departement);
+        $enquete->setCategorieSociale($categorieSociale);
+
+        $entityManager->persist($enquete);
+        $entityManager->flush();
+
+        return new Response('Enquete bien ajoutee');
+    }
+
+    public function insertBateauAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $modele = json_decode($request->getContent(), true)['modele'];
+        $categorie = json_decode($request->getContent(), true)['categorie'];
+
+        if(empty($modele) || empty($categorie))
+        {
+            echo 'Veuillez remplir tous les champs';
+        }
+
+        $bateau = new Bateau()
+
+        $bateau->setModele($modele);
+        $bateau->setCategorie($categorie);
+
+        $entityManager->persist($bateau);
+        $entityManager->flush();
+
+        return new Response('Bateau bien ajoute');
+    }
+
     public function getBudgetsJSONAction()
     {
         $budgets = array();
