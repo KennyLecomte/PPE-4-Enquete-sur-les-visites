@@ -372,7 +372,7 @@ class DefaultController extends Controller
         }
         else
         {
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('homepage');
         }
     }
 
@@ -482,7 +482,7 @@ class DefaultController extends Controller
         }
         else
         {
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('homepage');
         }
     }
 
@@ -494,7 +494,7 @@ class DefaultController extends Controller
         }
         else
         {
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('homepage');
         }
     }
     public function repartitionVisiteurAction()
@@ -505,13 +505,13 @@ class DefaultController extends Controller
         }
         else
         {
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('homepage');
         }
     }
 
     public function budgetAction()
     {
-        if(!$this->verificationConnexion())
+        if($this->verificationConnexion())
         {
 
             $managerBudget = $this->getDoctrine()->getManager();
@@ -542,7 +542,7 @@ class DefaultController extends Controller
         }
         else
         {
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('homepage');
         }
     }
 
@@ -563,7 +563,7 @@ class DefaultController extends Controller
         }
         else
         {
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('homepage');
         }
 
     }
