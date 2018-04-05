@@ -1,12 +1,12 @@
-{% extends "base.html.twig" %}
+{% extends "layout.html.twig" %}
 
 {% block body %}
+<div class="container-fluid">
 <h3>Statistiques sur le budget</h3>
-<div class="container">
   <div class="row">
     <div class="col-lg-6">
     	<table>
-    		<th scope="col">Budget</th>
+    		<th scope="col">Budget (en €)</th>
       		{% for budget in budgets %}
 				<tr><td>{{ budget.min }} - {{ budget.max }}</td></tr>
 			{% endfor %}
