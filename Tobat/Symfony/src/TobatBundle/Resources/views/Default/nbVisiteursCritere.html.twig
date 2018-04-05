@@ -1,23 +1,77 @@
-Catégories sociales : <br><br>
+{% extends "layout.html.twig" %}
 
-{% for nbVisiteursCategorie in nbVisiteursCategories %}
-	{{ nbVisiteursCategorie['nomCategorie'] }} : {{ nbVisiteursCategorie['nbVisiteurs'] }} <br>
-{% endfor %}
+{% block body %}
 
-<br><br>
+<br>
+<br>
+<br>
 
-Tranches d'âge : <br><br>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="row text-center">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-11 text-left">
+                        <b class="h4 text-primary" style="font-weight:bold">CATEGORIES SOCIALES :</b>
+                    </div>
+            </div>
+                </br>
+                {% for nbVisiteursCategorie in nbVisiteursCategories %}
+					<div class="row">
+	                   <div class="col-lg-2"></div>
+	                    <div class="col-lg-4 text-left">
+	                        <b class="text-dark">{{ nbVisiteursCategorie['nomCategorie'] }}</b>
+	                    </div>
+	                    <div class="col-lg-3 text-right">
+	                        <b class="text-info">{{ nbVisiteursCategorie['nbVisiteurs'] }}</b>
+	                    </div>
+	                </div>
+				{% endfor %}
+                
+		</div>
+		<div class="col-lg-4">
+			<div class="row text-center">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-11 text-left">
+                        <b class="h4 text-primary" style="font-weight:bold">TRANCHES D'AGES :</b>
+                    </div>
+            </div>
+            <br>
+			{% for nbVisiteursTrancheAge in nbVisiteursTranchesAge %}
+				<div class="row">
+	                   <div class="col-lg-2"></div>
+	                    <div class="col-lg-4 text-left">
+	                        <b class="text-dark">{{ nbVisiteursTrancheAge['trancheAge'][1] }}</b>
+	                    </div>
+	                    <div class="col-lg-3 text-right">
+	                        <b class="text-info">{{ nbVisiteursTrancheAge['nbVisiteurs'] }}</b>
+	                    </div>
+	                </div>
+			{% endfor %}
+		</div>
+		<div class="col-lg-4">
+			<div class="row text-center">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-11 text-left">
+                        <b class="h4 text-primary" style="font-weight:bold">MOTIVATIONS :</b>
+                    </div>
+            </div>
+            <br>
+			{% for nbVisiteursMotivation in nbVisiteursMotivations %}
+			<div class="row">
+	                   <div class="col-lg-2"></div>
+	                    <div class="col-lg-4 text-left">
+	                        <b class="text-dark">{{ nbVisiteursMotivation['motivation'][1] }}</b>
+	                    </div>
+	                    <div class="col-lg-3 text-right">
+	                        <b class="text-info">{{ nbVisiteursMotivation['nbVisiteurs'] }}</b>
+	                    </div>
+	                </div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
 
-{% for nbVisiteursTrancheAge in nbVisiteursTranchesAge %}
-	{{ nbVisiteursTrancheAge['trancheAge'][1] }} : {{ nbVisiteursTrancheAge['nbVisiteurs'] }} <br>
-{% endfor %}
-
-<br><br>
-
-Motivations : <br><br>
-
-{% for nbVisiteursMotivation in nbVisiteursMotivations %}
-	{{ nbVisiteursMotivation['motivation'][1] }} : {{ nbVisiteursMotivation['nbVisiteurs'] }} <br>
-{% endfor %}
+{% endblock %}
 
 
