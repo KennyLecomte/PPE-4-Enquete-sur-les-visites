@@ -30,6 +30,14 @@ tobat_enquete:
     path:    /enquete
     defaults: { _controller: TobatBundle:Default:enquete}
 
+tobat_deconnexion:
+    path:    /deconnexion
+    defaults: { _controller: TobatBundle:Default:deconnexion}
+
+tobat_nbEnquete:
+    path:    /nbEnquete
+    defaults: { _controller: TobatBundle:Default:getNbEnquete}
+
 tobat_repartitionVisiteur:
     path:    /repartition
     defaults: { _controller: TobatBundle:Default:repartitionVisiteur }

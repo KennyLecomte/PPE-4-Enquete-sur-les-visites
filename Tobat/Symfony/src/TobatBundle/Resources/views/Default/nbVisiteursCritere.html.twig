@@ -5,10 +5,17 @@
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-<div class="container">
-	<div class="row">
-		<div class="col-lg-4">
+<div class="container border border-dark rounded">
+	<div class="row" style="margin-top: 50px;margin-bottom: 50px;">
+		<div class="col-lg-4 border-right">
 			<div class="row text-center">
                     <div class="col-lg-1"></div>
                     <div class="col-lg-11 text-left">
@@ -29,7 +36,7 @@
 				{% endfor %}
                 
 		</div>
-		<div class="col-lg-4">
+		<div class="col-lg-4 border-right">
 			<div class="row text-center">
                     <div class="col-lg-1"></div>
                     <div class="col-lg-11 text-left">
@@ -72,6 +79,11 @@
 	</div>
 </div>
 
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }} Kenny</p>
+    </footer>
 {% endblock %}
 
 

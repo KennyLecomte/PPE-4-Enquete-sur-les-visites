@@ -1,3 +1,6 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
 
 <h1> Enquetes de la date : </h1>
 
@@ -6,3 +9,10 @@
 	<input type="date" name='date'>
 	<input type="submit">
 </form>
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }} Alan</p>
+    </footer>
+{% endblock %}

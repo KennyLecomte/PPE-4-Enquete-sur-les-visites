@@ -19,7 +19,22 @@
       <li class="nav-item">
         <a class ="nav-link" href="{{ path('tobat_budget') }}">Budget</a>
       </li>
+      <li class="nav-item">
+        <a class ="nav-link" href="{{ path('tobat_enquete') }}">Enquètes par date</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+      <a class ="btn btn-light" href="{{ path('tobat_deconnexion') }}">Déconnexion</a>
     </ul>
 </nav>
+
+{% endblock %}
+
+{% block footer %}
+
+<footer class="footer fixed-bottom border-top text-right" style="margin-right: 10px">
+    <p class="text-dark">Page créée par
+
 
 {% endblock %}

@@ -496,11 +496,27 @@ class DefaultController extends Controller
             return $this->redirectToRoute('homepage');
         }
     }
+
     public function repartitionVisiteurAction()
     {
         if($this->verificationConnexion())
         {
             return $this->render('TobatBundle:Default:repartition.html.twig');
+        }
+        else
+        {
+            return $this->redirectToRoute('homepage');
+        }
+    }
+
+    public function deconnexionAction()
+    {
+        if($this->verificationConnexion())
+        {
+            $session = $this->get('session');
+            $session->invalidate();
+
+            return $this->redirectToRoute('homepage');
         }
         else
         {
