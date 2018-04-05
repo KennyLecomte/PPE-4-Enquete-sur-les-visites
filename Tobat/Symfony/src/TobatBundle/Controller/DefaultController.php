@@ -44,18 +44,18 @@ class DefaultController extends Controller
 
                      $this->get('session')->set('status', 'connecte');
 
-                    return $this->redirectToRoute('tobat_budget');
+                    return $this->render('TobatBundle:Default:index.html.twig');
                 }
                 else {
                     echo('Mauvais login ou mot de passe');
-                    return $this->render('TobatBundle:Default:index.html.twig', array('form' => $form->createView()));
+                    return $this->render('TobatBundle:Default:connexion.html.twig', array('form' => $form->createView()));
                 }
             }
 
-            return $this->render('TobatBundle:Default:index.html.twig', array('form' => $form->createView()));
+            return $this->render('TobatBundle:Default:connexion.html.twig', array('form' => $form->createView()));
         }
 
-        return new Response('Vous ètes déja connecté');
+        return $this->render('TobatBundle:Default:index.html.twig');
     }
 
     public function creationSession()
@@ -109,17 +109,26 @@ class DefaultController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $ville = json_decode($request->getContent(), true)['ville'];
-        $codePostal = json_decode($request->getContent(), true)['codePostal'];
-        $raison = json_decode($request->getContent(), true)['raison'];
-        $budget = json_decode($request->getContent(), true)['budget'];
-        $trancheAge = json_decode($request->getContent(), true)['trancheAge'];
-        $vip = json_decode($request->getContent(), true)['vip'];
-        $categorieSociale = json_decode($request->getContent(), true)['categorieSociale'];
+        $ville = $_POST['ville'];
+         $codePostal = $_POST['codePostal'];
+         $raison = $_POST['raison'];
+         $budget = $_POST['budget'];
+         $trancheAge = $_POST['trancheAge'];
+         $vip = $_POST['vip'];
+         $categorieSociale = $_POST['categorieSociale'];
 
         if(empty($ville) || empty($codePostal) || empty($raison) || empty($budget) || empty($trancheAge) || empty($vip) || empty($categorieSociale))
         {
             echo 'Veuillez remplir tous les champs';
+        }
+
+        if($vip=='true')
+        {
+            $vipBool = TRUE;
+        }
+        else
+        {
+            $vipBool = FALSE;
         }
 
         $idDepartement = substr($codePostal, 0, 2);
@@ -129,22 +138,16 @@ class DefaultController extends Controller
         $min = $minMax[0];
         $max = $minMax[1];
 
-        $budget = $entityManager->getRepository('TobatBundle:Budget')->findBy(
-          array('min' => $min), 
-          array('max' => $max)
-        );
+        $budget = $entityManager->getRepository('TobatBundle:Budget')->findByMin($min);
 
         $categorieSociale = $entityManager->getRepository('TobatBundle:CategorieSociale')->findByNomCategorie($categorieSociale);
 
         $departement = $entityManager->getRepository('TobatBundle:Departement')->findById($idDepartement);
 
-        $dateEnquete = $date = date('Y-m-d');
+        $dateEnquete = new \DateTime();
+        $dateEnquete->format('Y-m-d H:i:s');
 
         $codePostal=intval($codePostal);
-        $vip=intval($vip);
-        $idBudget=intval($idBudget);
-        $idDepartement=intval($idDepartement);
-        $idCategorieSociale = intval($idCategorieSociale);
 
         $enquete = new Enquete();
 
@@ -152,16 +155,28 @@ class DefaultController extends Controller
         $enquete->setMotivation($raison);
         $enquete->setVille($ville);
         $enquete->setCodePostal($codePostal);
-        $enquete->setVip($vip);
+        $enquete->setVip($vipBool);
         $enquete->setDateEnquete($dateEnquete);
-        $enquete->setBudget($budget);
-        $enquete->setDepartement($departement);
-        $enquete->setCategorieSociale($categorieSociale);
+        $enquete->setBudget($budget[0]);
+        $enquete->setDepartement($departement[0]);
+        $enquete->setCategorieSociale($categorieSociale[0]);
+
+        var_dump($enquete->getTrancheAge());
+        var_dump($enquete->getMotivation());
+        var_dump($enquete->getVille());
+        var_dump($enquete->getCodePostal());
+        var_dump($enquete->getVip());
+        var_dump($enquete->getDateEnquete());
+        var_dump($enquete->getBudget()->getMin());
+        var_dump($enquete->getDepartement()->getNom());
+        var_dump($enquete->getCategorieSociale()->getNomCategorie());
 
         $entityManager->persist($enquete);
         $entityManager->flush();
 
-        return new Response('Enquete bien ajoutee');
+        $reponse = 'Enquete bien ajoutee';
+
+        return new Response($reponse);
     }
 
     public function insertBateauAction()
@@ -346,12 +361,19 @@ class DefaultController extends Controller
 
     public function getClassementBateauxAction()
     {
-        $classementCategoriesBateaux = $this->getClassementCategoriesBateaux();
-        $classementsBateauxCategories = $this->getClassementsBateauxCategories();
+        if($this->verificationConnexion())
+        {
+            $classementCategoriesBateaux = $this->getClassementCategoriesBateaux();
+            $classementsBateauxCategories = $this->getClassementsBateauxCategories();
 
-        $categoriesBateaux = array_keys($classementCategoriesBateaux);
+            $categoriesBateaux = array_keys($classementCategoriesBateaux);
 
-        return $this->render('TobatBundle:Default:classementBateaux.html.twig', array('classementCategories' => $classementCategoriesBateaux, 'categoriesBateaux' => $categoriesBateaux, 'classementsBateauxCategories' => $classementsBateauxCategories));
+            return $this->render('TobatBundle:Default:classementBateaux.html.twig', array('classementCategories' => $classementCategoriesBateaux, 'categoriesBateaux' => $categoriesBateaux, 'classementsBateauxCategories' => $classementsBateauxCategories));
+        }
+        else
+        {
+            return $this->redirectToRoute('');
+        }
     }
 
     public function getNbVisiteursCategoriesSociales()
@@ -447,75 +469,102 @@ class DefaultController extends Controller
 
     public function nbVisiteursCritereAction()
     {
-        $nbVisiteursTranchesAge = $this->getNbVisiteursTranchesAge();
+        if(!$this->verificationConnexion())
+        {
 
-        $nbVisiteursCategories = $this->getNbVisiteursCategoriesSociales();
+            $nbVisiteursTranchesAge = $this->getNbVisiteursTranchesAge();
 
-        $nbVisiteursMotivations = $this->getNbVisiteursMotivations();
+            $nbVisiteursCategories = $this->getNbVisiteursCategoriesSociales();
 
-        return $this->render('TobatBundle:Default:nbVisiteursCritere.html.twig', array('nbVisiteursCategories' => $nbVisiteursCategories, 'nbVisiteursTranchesAge' => $nbVisiteursTranchesAge, 'nbVisiteursMotivations' => $nbVisiteursMotivations));
+            $nbVisiteursMotivations = $this->getNbVisiteursMotivations();
+
+            return $this->render('TobatBundle:Default:nbVisiteursCritere.html.twig', array('nbVisiteursCategories' => $nbVisiteursCategories, 'nbVisiteursTranchesAge' => $nbVisiteursTranchesAge, 'nbVisiteursMotivations' => $nbVisiteursMotivations));
+        }
+        else
+        {
+            return $this->redirectToRoute('');
+        }
     }
 
     public function enqueteAction()
     {
-        return $this->render('TobatBundle:Default:enquete.html.twig');
+        if($this->verificationConnexion())
+        {
+            return $this->render('TobatBundle:Default:enquete.html.twig');
+        }
+        else
+        {
+            return $this->redirectToRoute('');
+        }
     }
     public function repartitionVisiteurAction()
     {
-        return $this->render('TobatBundle:Default:repartition.html.twig');
-    }
-
-    public function visiteursAction()
-    {
-        return $this->render('TobatBundle:Default:visiteurs.html.twig');
+        if(!$this->verificationConnexion())
+        {
+            return $this->render('TobatBundle:Default:repartition.html.twig');
+        }
+        else
+        {
+            return $this->redirectToRoute('');
+        }
     }
 
     public function budgetAction()
     {
-        $managerBudget = $this->getDoctrine()->getManager();
-
-        $budget = $managerBudget->getRepository('TobatBundle:Budget')->find(1);
-        $budgets = $managerBudget->getRepository('TobatBundle:Budget')->findAll();
-        $nbVisiteursBudgets = array();
-
-        foreach ($budgets as $budget)
+        if(!$this->verificationConnexion())
         {
-            $query = $managerBudget->createQuery(
-                'SELECT COUNT(e) 
-                FROM TobatBundle:Enquete e, TobatBundle:Budget b 
-                WHERE e.budget = b.id 
-                AND b.min = :min and b.max = :max'
-            )->setParameter('min', $budget->getMin())->setParameter('max', $budget->getMax());
 
-            $resultats = $query->getResult();
+            $managerBudget = $this->getDoctrine()->getManager();
 
-            $nbVisiteursBudget = array('nbVisiteursBudget' => $resultats[0][1]);
-            array_push($nbVisiteursBudgets, $nbVisiteursBudget);
+            $budget = $managerBudget->getRepository('TobatBundle:Budget')->find(1);
+            $budgets = $managerBudget->getRepository('TobatBundle:Budget')->findAll();
+            $nbVisiteursBudgets = array();
+
+            foreach ($budgets as $budget)
+            {
+                $query = $managerBudget->createQuery(
+                    'SELECT COUNT(e) 
+                    FROM TobatBundle:Enquete e, TobatBundle:Budget b 
+                    WHERE e.budget = b.id 
+                    AND b.min = :min and b.max = :max'
+                )->setParameter('min', $budget->getMin())->setParameter('max', $budget->getMax());
+
+                $resultats = $query->getResult();
+
+                $nbVisiteursBudget = array('nbVisiteursBudget' => $resultats[0][1]);
+                array_push($nbVisiteursBudgets, $nbVisiteursBudget);
+            }
+
+            $enquete = $managerBudget->getRepository('TobatBundle:Enquete')->find(1);
+            $enquetes = $managerBudget->getRepository('TobatBundle:Enquete')->findAll();
+
+            return $this->render('TobatBundle:Default:budget.html.twig', array('budget' => $budget, 'budgets' => $budgets, 'enquete' => $enquete, 'enquetes' => $enquetes, 'nbVisiteursBudgets' => $nbVisiteursBudgets));
         }
-
-        $enquete = $managerBudget->getRepository('TobatBundle:Enquete')->find(1);
-        $enquetes = $managerBudget->getRepository('TobatBundle:Enquete')->findAll();
-
-        return $this->render('TobatBundle:Default:budget.html.twig', array('budget' => $budget, 'budgets' => $budgets, 'enquete' => $enquete, 'enquetes' => $enquetes, 'nbVisiteursBudgets' => $nbVisiteursBudgets));
+        else
+        {
+            return $this->redirectToRoute('');
+        }
     }
 
-    public function classementAction()
-    {
-        return $this->render('TobatBundle:Default:classement.html.twig');
-    }
     public function getNbEnqueteAction(Request $request){
 
+        if(!$this->verificationConnexion())
+        {
+            $date = $request->get('date');
 
-        $date = $request->get('date');
+            $em = $this->getDoctrine()->getManager();
+            $connection = $em->getConnection();
+            $queryNb = $connection->prepare("SELECT count(*) FROM enquete WHERE dateEnquete = :date");
+            $queryNb->bindValue('date', $date);
+            $queryNb->execute();
+            $nbEnquetes = $queryNb->fetchAll();
 
-        $em = $this->getDoctrine()->getManager();
-        $connection = $em->getConnection();
-        $queryNb = $connection->prepare("SELECT count(*) FROM enquete WHERE dateEnquete = :date");
-        $queryNb->bindValue('date', $date);
-        $queryNb->execute();
-        $nbEnquetes = $queryNb->fetchAll();
-
-        return $this->render('TobatBundle:Default:nbEnquetes.html.twig',array('nbEnquetes' => $nbEnquetes));
+            return $this->render('TobatBundle:Default:nbEnquetes.html.twig',array('nbEnquetes' => $nbEnquetes));
+        }
+        else
+        {
+            return $this->redirectToRoute('');
+        }
 
     }
 }

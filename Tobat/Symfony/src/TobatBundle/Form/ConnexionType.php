@@ -23,7 +23,7 @@ class ConnexionType extends AbstractType
         $builder
             ->add('login',  TextType::class)
             ->add('motDePasse',     PasswordType::class)
-            ->add('submit',     SubmitType::class);
+            ->add('Connexion',     SubmitType::class);
     }/**
      * {@inheritdoc}
      */
