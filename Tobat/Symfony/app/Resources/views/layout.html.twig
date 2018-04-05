@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block menu %}
+
+<a href="{{ path('tobat_nbVisiteursCritere') }}">Nombre de visiteurs par critère</a>
+<br>
+<a href="{{ path('tobat_classementBateaux') }}">Classement des bateaux</a>
+<br>
+<a href="{{ path('tobat_repartitionVisiteur') }}">Répartition des visiteurs</a>
+<br>
+<a href="{{ path('tobat_budget') }}">Budget</a>
+
+{% endblock %}

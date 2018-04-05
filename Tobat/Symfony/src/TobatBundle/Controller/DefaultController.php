@@ -40,7 +40,6 @@ class DefaultController extends Controller
             if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
                 if ($connexion2->getLogin() == $connexion->getLogin() && $connexion2->getMotDePasse() == $connexion->getMotDePasse()) {
                     $em = $this->getDoctrine()->getManager();
-                    echo('Vous êtes bien connectés');
 
                      $this->get('session')->set('status', 'connecte');
 
@@ -469,7 +468,7 @@ class DefaultController extends Controller
 
     public function nbVisiteursCritereAction()
     {
-        if(!$this->verificationConnexion())
+        if($this->verificationConnexion())
         {
 
             $nbVisiteursTranchesAge = $this->getNbVisiteursTranchesAge();
@@ -499,7 +498,7 @@ class DefaultController extends Controller
     }
     public function repartitionVisiteurAction()
     {
-        if(!$this->verificationConnexion())
+        if($this->verificationConnexion())
         {
             return $this->render('TobatBundle:Default:repartition.html.twig');
         }
@@ -548,7 +547,7 @@ class DefaultController extends Controller
 
     public function getNbEnqueteAction(Request $request){
 
-        if(!$this->verificationConnexion())
+        if($this->verificationConnexion())
         {
             $date = $request->get('date');
 
