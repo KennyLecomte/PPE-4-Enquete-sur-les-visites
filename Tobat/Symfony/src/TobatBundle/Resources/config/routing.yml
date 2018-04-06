@@ -61,15 +61,3 @@ tobat_insertEnquete:
 tobat_insertBateau:
     path:    /insertBateau
     defaults: { _controller: TobatBundle:Default:insertBateau }
-
-tobat_visiteurVD:
-    path:    /visiteurVD
-    defaults: { _controller: TobatBundle:Default:visiteurVD}
-
-tobat_nbVisiteurVille:
-    path:    /nbVisiteurVille
-    defaults: { _controller: TobatBundle:Default:getNbVisiteurVille}
-    
-tobat_nbVisiteurDep:
-    path:    /nbVisiteurDep
-    defaults: { _controller: TobatBundle:Default:getNbVisiteurDep
