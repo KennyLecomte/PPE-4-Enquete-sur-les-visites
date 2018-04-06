@@ -595,5 +595,42 @@ class DefaultController extends Controller
         }
 
     }
+
+    public function visiteurVDAction(){
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+        $queryDepartement = $connection->prepare("SELECT nom FROM departement");
+
+        $queryDepartement->execute();
+        $departements = $queryDepartement->fetchAll();
+        return $this->render('TobatBundle:Default:visiteurVD.html.twig',array('departements'=>$departements));
+    }
+
+    public function getNbVisiteurVilleAction(Request $request){
+
+      $ville = $request->get('ville');
+      $em = $this->getDoctrine()->getManager();
+      $connection = $em->getConnection();
+      $queryNb = $connection->prepare("SELECT count(*) FROM enquete WHERE ville = :ville ");
+      $queryNb->bindValue('ville', $ville);
+      $queryNb->execute();
+      $nbVisiteur = $queryNb->fetchAll();
+
+      return $this->render('TobatBundle:Default:nbVisiteurVille.html.twig',array('nbVisiteurs' => $nbVisiteur , 'nomVille' => $ville));
+
+    }
+    public function getNbVisiteurDepAction(Request $request){
+
+        $dep = $request->get('departement');
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+        $queryNb = $connection->prepare("SELECT count(*) FROM enquete,departement WHERE enquete.departement_id = departement.id AND departement.nom = :dep");
+        $queryNb->bindValue('dep', $dep);
+        $queryNb->execute();
+        $nbVisiteur = $queryNb->fetchAll();
+
+        return $this->render('TobatBundle:Default:nbVisiteurDep.html.twig',array('nbVisiteurs' => $nbVisiteur , 'nomDepartement' => $dep));
+
+  }
 }
 
