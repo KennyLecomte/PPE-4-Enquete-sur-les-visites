@@ -53,11 +53,3 @@ tobat_budget:
 tobat_classement:
     path:    /classement
     defaults: { _controller: TobatBundle:Default:classement }
-
-tobat_insertEnquete:
-    path:    /insertEnquete
-    defaults: { _controller: TobatBundle:Default:insertEnquete }
-
-tobat_insertBateau:
-    path:    /insertBateau
-    defaults: { _controller: TobatBundle:Default:insertBateau }

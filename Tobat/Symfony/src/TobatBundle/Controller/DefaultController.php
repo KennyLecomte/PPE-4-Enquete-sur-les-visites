@@ -115,11 +115,8 @@ class DefaultController extends Controller
          $trancheAge = $_POST['trancheAge'];
          $vip = $_POST['vip'];
          $categorieSociale = $_POST['categorieSociale'];
-         $bateau1Modele = $_POST['bateau1'];
-         $bateau2Modele = $_POST['bateau2'];
-         $bateau3Modele = $_POST['bateau3'];
 
-        if(empty($ville) || empty($codePostal) || empty($raison) || empty($budget) || empty($trancheAge) || empty($vip) || empty($categorieSociale)|| empty($bateau1Modele) || empty($bateau2Modele) || empty($bateau3Modele))
+        if(empty($ville) || empty($codePostal) || empty($raison) || empty($budget) || empty($trancheAge) || empty($vip) || empty($categorieSociale))
         {
             echo 'Veuillez remplir tous les champs';
         }
@@ -144,8 +141,6 @@ class DefaultController extends Controller
 
         $categorieSociale = $entityManager->getRepository('TobatBundle:CategorieSociale')->findByNomCategorie($categorieSociale);
 
-        
-
         $departement = $entityManager->getRepository('TobatBundle:Departement')->findById($idDepartement);
 
         $dateEnquete = new \DateTime();
@@ -165,23 +160,15 @@ class DefaultController extends Controller
         $enquete->setDepartement($departement[0]);
         $enquete->setCategorieSociale($categorieSociale[0]);
 
-        if($bateau1Modele!="Aucun")
-        {
-            $bateau1 = $entityManager->getRepository('TobatBundle:Bateau')->findByModele($bateau1Modele);
-            $enquete->addBateaux($bateau1[0]);
-        }
-
-        if($bateau2Modele!="Aucun")
-        {
-            $bateau2 = $entityManager->getRepository('TobatBundle:Bateau')->findByModele($bateau2Modele);
-            $enquete->addBateaux($bateau2[0]);
-        }
-
-        if($bateau3Modele!="Aucun")
-        {
-            $bateau3 = $entityManager->getRepository('TobatBundle:Bateau')->findByModele($bateau3Modele);
-            $enquete->addBateaux($bateau3[0]);
-        }
+        var_dump($enquete->getTrancheAge());
+        var_dump($enquete->getMotivation());
+        var_dump($enquete->getVille());
+        var_dump($enquete->getCodePostal());
+        var_dump($enquete->getVip());
+        var_dump($enquete->getDateEnquete());
+        var_dump($enquete->getBudget()->getMin());
+        var_dump($enquete->getDepartement()->getNom());
+        var_dump($enquete->getCategorieSociale()->getNomCategorie());
 
         $entityManager->persist($enquete);
         $entityManager->flush();
