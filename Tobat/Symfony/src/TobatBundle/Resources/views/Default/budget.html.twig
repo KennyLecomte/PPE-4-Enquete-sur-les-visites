@@ -1,26 +1,50 @@
 {% extends "layout.html.twig" %}
 
 {% block body %}
-<div class="container-fluid">
-<h3>Statistiques sur le budget</h3>
-  <div class="row">
-    <div class="col-lg-6">
-    	<table>
-    		<th scope="col">Budget (en €)</th>
+<div class="col-lg-1"></div>
+ <div class="col-lg-11">
+<h3 class="text-primary col-lg-offset-1">Statistiques sur le budget</h3>
+</div>
+<br>
+<div class="container border border-dark rounded">
+	<div class="row" style="margin-top: 50px;margin-bottom: 50px;">
+		<div class="col-lg-6 border-right">
+			<div class="row text-center">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-11">
+                        <b class="h4 text-primary" style="font-weight:bold">BUDGET (EN €) :</b>
+                    </div>
+            </div>
+                </br>
+                <div class="col-lg-1"></div>
+                    <div class="col-lg-11">
+                <table>
+                	
       		{% for budget in budgets %}
-				<tr><td>{{ budget.min }} - {{ budget.max }}</td></tr>
+				<tr><td style="font-weight:bold">{{ budget.min }} - {{ budget.max }}</td></tr>
 			{% endfor %}
+
 		</table>
-    </div>
-    <div class="col-lg-6">
-    	<table>
-    		<th scope="col">Nombre de personnes</th>
+	</div>
+		</div>
+		<div class="col-lg-6 border-right">
+			<div class="row text-center">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-11">
+                        <b class="h4 text-primary" style="font-weight:bold">NOMBRE DE PERSONNES :</b>
+                    </div>
+            </div>
+            <br>
+            <div class="col-lg-1"></div>
+                    <div class="col-lg-11">
+            <table>
       		{% for nbVisiteursBudget in nbVisiteursBudgets %}
-				<tr><td>{{ nbVisiteursBudget['nbVisiteursBudget'] }}</td></tr>
+				<tr><td style="font-weight:bold">{{ nbVisiteursBudget['nbVisiteursBudget'] }}</td></tr>
 			{% endfor %}
 		</table>
-    </div>
-  </div>
+	</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
 
